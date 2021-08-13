@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap");
+
+:root {
+  --primary: #059669;
+  --bg-color-100: #f9fafb;
+  --bg-color-200: #e5e7eb;
+  --bg-color-300: #d1d5db;
+  --bg-color-600: #4b5563;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 4rem 0rem;
+  background: var(--bg-color-100);
+  font-family: "Arvo", serif;
+  text-align: center;
+  color: var(--bg-color-600);
+}
+
+/* --------------------------------------------- */
+
+.container {
+  background: var(--bg-color-200);
+  max-width: 30rem;
+  margin: auto;
+  border-radius: 1.5rem;
+  padding-bottom: 0.4rem;
+}
+
+header {
+  padding: 0.1rem 0.5rem;
+}
+
+.text--focus {
+  color: var(--primary);
+}
+
+.input__box {
+  height: 2.5rem;
+  width: 45%;
+  text-align: center;
+  margin: 1rem;
+  background: var(--bg-color-300);
+  border-radius: 1rem;
+  border: 1.5px solid var(--bg-color-600);
+}
+
+.btn {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: white;
+  font-weight: bold;
+  text-transform: capitalize;
+  border-radius: 10px;
+  border: 2px solid var(--primary);
+  cursor: pointer;
+}
+
+.loader{
+  width : 2rem;
+}
+
+.help {
+  margin: 1rem;
+  border-radius: 1.5rem;
+  border: 2px solid;
+  padding: 0.1rem;
+}
+
+.help > p {
+  text-align: justify;
+  margin: 1rem;
+}
+
+footer {
+  margin: 4rem;
+  width: auto;
+}
+
+footer > a {
+  text-decoration: none;
+}
+
+.icon {
+  width: 2rem;
+  margin: 0.5rem;
+  fill: var(--primary);
+}

@@ -32,7 +32,8 @@ export default function App() {
     fetch(stockUrl(name))
           .then((res) => res.json())
           .then((data) => {
-              setCurPrice(data.c);
+            let price = data.c;
+            setCurPrice(price);
           })
       .catch(errorHandler);
   }

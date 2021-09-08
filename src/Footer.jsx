@@ -10,7 +10,7 @@ export const Footer = () => {
         <img className="icon" src={github} alt="github" />
       </a>
       <a
-        href="linkedin.com/in/adithya-mallya-54438417a"
+        href="https://www.linkedin.com/in/adithya-mallya-54438417a/"
         rel="noreferrer"
         target="_blank"
       >

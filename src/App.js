@@ -23,25 +23,21 @@ export default function App() {
       : setGif(loss);
   }
 
-  const errorHandler = (err) => {
-    console.log("error has occured",err);
-    alert("some issue with the server: try after sometime.");
-  };
+  const fetchData = async () => {
+    const res = await fetch(stockUrl(name));
+    if (!res.ok) {
+      const msg = `An error has occured : ${res.status}`;
+      throw new Error(msg);
+    }
 
-  const fetchData = () => {
-    fetch(stockUrl(name))
-          .then((res) => res.json())
-          .then((data) => {
-            let price = data.c;
-            setCurPrice(price);
-          })
-      .catch(errorHandler);
+    const data = await res.json();
+    setCurPrice(data.c);
   }
 
   const calculate = () => {
       
       if (!isNaN(price) && !isNaN(qty)) {
-        fetchData();
+        fetchData(error => error.msg);
 
         if (price > 0 && qty > 0 && curPrice > 0) {
               let cp = price;
@@ -55,7 +51,7 @@ export default function App() {
 
                   if (lossPer > 50) {
                     setReaction("sad");
-                  }
+                  }else setGif("");
               }
               else {
                   const profit = ((sp - cp)*qty).toFixed(2);
@@ -64,15 +60,17 @@ export default function App() {
                     `Yay! a ${profitPer}% pay off. You total profit is $${profit}.`
                   );
                 
-                  if (profitPer > 50) {
-                    setReaction("happy");
-                  }
+                if (profitPer > 50) {
+                  setReaction("happy");
+                } else setGif("");
               }
           } else {
               setOutput("Please give valid input(only numbers > 0)");
-          }
+              setGif('');  
+        }
       } else {
         setOutput("Please give valid input(only numbers > 0)");
+        setGif(""); 
       }
 
   };

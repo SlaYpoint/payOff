@@ -6,9 +6,9 @@ import loss from "./assets/loss.gif";
 
 export default function App() {
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(0.00);
+  const [price, setPrice] = useState(0.0);
   const [qty, setQty] = useState(0);
-  const [curPrice, setCurPrice] = useState(0.00);
+  const [curPrice, setCurPrice] = useState(0.0);
   const [output, setOutput] = useState("");
   const [gif, setGif] = useState("");
 
@@ -18,10 +18,8 @@ export default function App() {
   };
 
   const setReaction = (react) => {
-    react === "happy"
-      ? setGif(profit)
-      : setGif(loss);
-  }
+    react === "happy" ? setGif(profit) : setGif(loss);
+  };
 
   const fetchData = async () => {
     const res = await fetch(stockUrl(name));
@@ -32,47 +30,42 @@ export default function App() {
 
     const data = await res.json();
     setCurPrice(data.c);
-  }
+  };
 
   const calculate = () => {
-      
-      if (!isNaN(price) && !isNaN(qty)) {
-        fetchData(error => error.msg);
+    if (!isNaN(price) && !isNaN(qty)) {
+      fetchData((error) => console.log(error.msg));
 
-        if (price > 0 && qty > 0 && curPrice > 0) {
-              let cp = price;
-              let sp = curPrice;
-              if (cp > sp) {
-                  const loss = ((cp - sp)*qty).toFixed(2);
-                  const lossPer = (((cp - sp) * 100) / cp).toFixed(2);
-                  setOutput(
-                    `Suffered a ${lossPer}% loss. You total loss is $${loss}.`
-                  );
+      if (price > 0 && qty > 0 && curPrice > 0) {
+        let cp = price;
+        let sp = curPrice;
+        if (cp > sp) {
+          const loss = ((cp - sp) * qty).toFixed(2);
+          const lossPer = (((cp - sp) * 100) / cp).toFixed(2);
+          setOutput(`Suffered a ${lossPer}% loss. You total loss is $${loss}.`);
 
-                  if (lossPer > 50) {
-                    setReaction("sad");
-                  }else setGif("");
-              }
-              else {
-                  const profit = ((sp - cp)*qty).toFixed(2);
-                  const profitPer = (((sp - cp) * 100) / cp).toFixed(2);
-                  setOutput(
-                    `Yay! a ${profitPer}% pay off. You total profit is $${profit}.`
-                  );
-                
-                if (profitPer > 50) {
-                  setReaction("happy");
-                } else setGif("");
-              }
-          } else {
-              setOutput("Please give valid input(only numbers > 0)");
-              setGif('');  
+          if (lossPer > 50) {
+            setReaction("sad");
+          } else setGif("");
+        } else {
+          const profit = ((sp - cp) * qty).toFixed(2);
+          const profitPer = (((sp - cp) * 100) / cp).toFixed(2);
+          setOutput(
+            `Yay! a ${profitPer}% pay off. You total profit is $${profit}.`
+          );
+
+          if (profitPer > 50) {
+            setReaction("happy");
+          } else setGif("");
         }
       } else {
         setOutput("Please give valid input(only numbers > 0)");
-        setGif(""); 
+        setGif("");
       }
-
+    } else {
+      setOutput("Please give valid input(only numbers > 0)");
+      setGif("");
+    }
   };
 
   return (
@@ -111,10 +104,12 @@ export default function App() {
         <button className="btn primary__btn" onClick={calculate}>
           paid off?
         </button>
-
+        <div>
+          <small>*Click on the button twice first time(async issue)</small>
+        </div>
         <div className="output">
           <h4>{output}</h4>
-          <img className="gif" src={gif} alt=""/>
+          <img className="gif" src={gif} alt="" />
         </div>
 
         <section className="help">

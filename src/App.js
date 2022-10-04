@@ -5,36 +5,36 @@ import profit from "./assets/profit.gif";
 import loss from "./assets/loss.gif";
 
 export default function App() {
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   const [price, setPrice] = useState(0.0);
   const [qty, setQty] = useState(0);
   const [curPrice, setCurPrice] = useState(0.0);
   const [output, setOutput] = useState("");
   const [gif, setGif] = useState("");
 
-  const stockUrl = (name) => {
-    let symbol = name.toUpperCase();
-    return `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${process.env.REACT_APP_API_TOKEN}`;
-  };
+  // const stockUrl = (name) => {
+  //   let symbol = name.toUpperCase();
+  //   return `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${process.env.REACT_APP_API_TOKEN}`;
+  // };
 
   const setReaction = (react) => {
     react === "happy" ? setGif(profit) : setGif(loss);
   };
 
-  const fetchData = async () => {
-    const res = await fetch(stockUrl(name));
-    if (!res.ok) {
-      const msg = `An error has occured : ${res.status}`;
-      throw new Error(msg);
-    }
+  // const fetchData = async () => {
+  //   const res = await fetch(stockUrl(name));
+  //   if (!res.ok) {
+  //     const msg = `An error has occured : ${res.status}`;
+  //     throw new Error(msg);
+  //   }
 
-    const data = await res.json();
-    setCurPrice(data.c);
-  };
+  //   const data = await res.json();
+  //   setCurPrice(data.c);
+  // };
 
   const calculate = () => {
-    if (!isNaN(price) && !isNaN(qty)) {
-      fetchData((error) => console.log(error.msg));
+    if (!isNaN(curPrice) && !isNaN(price) && !isNaN(qty)) {
+      // fetchData((error) => console.log(error.msg));
 
       if (price > 0 && qty > 0 && curPrice > 0) {
         let cp = price;
@@ -47,7 +47,7 @@ export default function App() {
           if (lossPer > 50) {
             setReaction("sad");
           } else setGif("");
-        } else {
+        } else if (sp > cp) {
           const profit = ((sp - cp) * qty).toFixed(2);
           const profitPer = (((sp - cp) * 100) / cp).toFixed(2);
           setOutput(
@@ -57,6 +57,9 @@ export default function App() {
           if (profitPer > 50) {
             setReaction("happy");
           } else setGif("");
+        } else {
+          setOutput("No pain no gain... Prices are at same value:\\");
+          setGif("");
         }
       } else {
         setOutput("Please give valid input(only numbers > 0)");
@@ -82,8 +85,8 @@ export default function App() {
             type="text"
             id="stock"
             className="input__box"
-            placeholder="Stock (e.g: AAPL, TSLA)"
-            onChange={(e) => setName(e.target.value)}
+            placeholder="Current price of the stock ?"
+            onChange={(e) => setCurPrice(Number(e.target.value))}
           />
           <input
             type="text"
@@ -104,9 +107,6 @@ export default function App() {
         <button className="btn primary__btn" onClick={calculate}>
           paid off?
         </button>
-        <div>
-          <small>*Click on the button twice first time(async issue)</small>
-        </div>
         <div className="output">
           <h4>{output}</h4>
           <img className="gif" src={gif} alt="" />
